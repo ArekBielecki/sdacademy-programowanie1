@@ -1,20 +1,21 @@
-package LinekListTwoDirections;
-public class Node {
-    private Node prev;
-    private Node next;
-    private String text;
+package LinkedListTwoDirections;
+public class Node<T> {
+    private Node<T> prev;
+    private Node<T> next;
+    private T element;
     private int index;
 
-    public Node(String text){
-        this.text = text;
+    public Node(T element){
+        this.element = element;
     }
 
-    public void addNext(Node e) {
+    public void addNext(Node<T> e, Node<T> prev) {
         if (next == null) {
             next = e;
+            next.setPrev(prev);
         }
         else{
-            next.addNext(e);
+            next.addNext(e, prev.getNext());
         }
     }
     public boolean hasNext(){
@@ -26,11 +27,19 @@ public class Node {
         }
     }
 
-    public String getText() {
-        return text;
+    public Node<T> getPrev() {
+        return prev;
     }
 
-    public Node getNext(){
+    public void setPrev(Node<T> prev) {
+        this.prev = prev;
+    }
+
+    public T getElement() {
+        return element;
+    }
+
+    public Node<T> getNext(){
         return next;
     }
 
@@ -44,7 +53,6 @@ public class Node {
     }
 
 
-
     public int getIndex() {
         return index;
     }
@@ -56,10 +64,10 @@ public class Node {
     @Override
     public String toString() {
         if(next == null){
-            return "index: " + index + ", name: " + text;
+            return "index: " + index + ", name: " + element;
         }
         else{
-            return "index: " + index + ", name: " + text + "\n" + next;
+            return "index: " + index + ", name: " + element + "\n" + next;
         }
     }
 }

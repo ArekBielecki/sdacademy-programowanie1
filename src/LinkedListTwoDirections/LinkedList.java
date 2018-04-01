@@ -1,32 +1,35 @@
-package LinekListTwoDirections;
+package LinkedListTwoDirections;
 
-public class LinkedList {
-    private Node first;
+public class LinkedList<T> {
+    private Node<T> first;
     private int size;
 
-    public void add(Node node) {
+    public void add(T element) {
         if (first == null) {
-            first = node;
+            first = new Node(element);
             size++;
         } else {
-            first.addNext(node);
+            first.addNext(new Node(element), first);
             size++;
         }
         setIndex();
     }
 
-    public void add(Node node, int index) {
-        try{
+    public void add(T element, int index) {
+        if(index >= 0 && index < size){
             Node current = first;
             if (index == 0) {
-                first = node;
+                first = new Node(element);
                 first.setNext(current);
+                current.setPrev(first);
             } else {
                 for (int i = 0; i <= index; i++) {
-                    if (i == index - 1) {
-                        Node next = current.getNext();
-                        current.setNext(node);
-                        node.setNext(next);
+                    if (i == index) {
+                        Node node = new Node(element);
+                        Node prev = current.getPrev();
+                        prev.setNext(node);
+                        node.setPrev(prev);
+                        node.setNext(current);
 
                     } else {
                         current = current.getNext();
@@ -36,19 +39,17 @@ public class LinkedList {
             size++;
             setIndex();
         }
-        catch(NullPointerException e){
-        }
     }
-    public String get(int index){
-        String text = "";
+    public T get(int index){
+        T element = null;
         Node current = first;
             for (int i = 0; i <= index; i++) {
                 if(i == current.getIndex()){
-                    text = current.getText();
+                    element = (T)current.getElement();
                 }
                 current = current.getNext();
             }
-        return text;
+        return element;
     }
 
 
@@ -57,16 +58,18 @@ public class LinkedList {
     }
 
     public void remove(int index) {
-        try{
-            Node current = first;
+        if(index >= 0 && index < size){
+            Node<T> current = first;
             if (index == 0) {
                 first = first.getNext();
+                first.setPrev(null);
             } else {
-                for (int i = 0; i < index; i++) {
-                    if (i == index - 1) {
-                        Node prev = current;
-                        Node next = current.getNext().getNext();
+                for (int i = 0; i <= index; i++) {
+                    if (i == index) {
+                        Node prev = current.getPrev();
+                        Node next = current.getNext();
                         prev.setNext(next);
+                        next.setPrev(prev);
                     } else {
                         current = current.getNext();
                     }
@@ -75,9 +78,6 @@ public class LinkedList {
             size--;
             setIndex();
         }
-        catch (NullPointerException e){
-        }
-
     }
 
     private void setIndex(){
@@ -89,12 +89,12 @@ public class LinkedList {
     }
 
     public void printList(){
-        System.out.println(this);
+        System.out.println(first.toString());
     }
 
 
     @Override
     public String toString() {
-        return "lista:\n" + first;
+        return "lista:\n";
     }
 }

@@ -1,14 +1,14 @@
 package LinkedList;
-public class Node {
-    private Node next;
-    private String text;
+public class Node<T> {
+    private Node<T> next;
+    private T element;
     private int index;
 
-    public Node(String text){
-        this.text = text;
+    public Node(T element){
+        this.element = element;
     }
 
-    public void addNext(Node e) {
+    public void addNext(Node<T> e) {
         if (next == null) {
             next = e;
         }
@@ -25,10 +25,14 @@ public class Node {
         }
     }
 
-    public Node getNext(){
+    public T getElement() {
+        return element;
+    }
+
+    public Node<T> getNext(){
         return next;
     }
-    public void setNext(Node e){
+    public void setNext(Node<T> e){
         if (next == null) {
             next = e;
         }
@@ -50,10 +54,10 @@ public class Node {
     @Override
     public String toString() {
         if(next == null){
-            return "index: " + index + ", name: " + text;
+            return "index: " + index + ", name: " + element;
         }
         else{
-            return "index: " + index + ", name: " + text + "\n" + next;
+            return "index: " + index + ", name: " + element + "\n" + next;
         }
     }
 }
